@@ -5,12 +5,29 @@ function(portaudio_Populate remote_url local_path os arch build_type)
 
         set(compiler "gcc10")
 
-        set(name "linux_${arch}")
-        # if (build_type STREQUAL "debug")
-        #     set(name "${name}_debug_${compiler}")
-        # else()
-            set(name "${name}_relwithdebinfo_${compiler}")
-        # endif()
+        # At the moment only relwithdebinfo
+        # I don't think we need debug builds
+        set(name "linux_${arch}_relwithdebinfo_${compiler}")
+
+        if (NOT EXISTS ${local_path}/${name}.7z)
+            message(STATUS "[portaudio] Populate: ${remote_url}/${name} to ${local_path} ${os} ${arch} ${build_type}")
+            file(DOWNLOAD ${remote_url}/${name}.7z ${local_path}/${name}.7z)
+            file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
+        endif()
+
+        set(portaudio_INCLUDE_DIRS ${local_path}/include)
+        set(portaudio_LIBRARIES ${local_path}/lib/libportaudio.so)
+
+        set_property(GLOBAL PROPERTY portaudio_INCLUDE_DIRS ${portaudio_INCLUDE_DIRS})
+        set_property(GLOBAL PROPERTY portaudio_LIBRARIES ${portaudio_LIBRARIES})
+
+    elseif(os STREQUAL "macos")
+
+        set(compiler "appleclang15")
+
+        # At the moment only relwithdebinfo
+        # I don't think we need debug builds
+        set(name "macos_${arch}_relwithdebinfo_${compiler}_os109")
 
         if (NOT EXISTS ${local_path}/${name}.7z)
             message(STATUS "[portaudio] Populate: ${remote_url} to ${local_path} ${os} ${arch} ${build_type}")
@@ -19,7 +36,7 @@ function(portaudio_Populate remote_url local_path os arch build_type)
         endif()
 
         set(portaudio_INCLUDE_DIRS ${local_path}/include)
-        set(portaudio_LIBRARIES ${local_path}/lib/libportaudio.so)
+        set(portaudio_LIBRARIES ${local_path}/lib/libportaudio.dylib)
 
         set_property(GLOBAL PROPERTY portaudio_INCLUDE_DIRS ${portaudio_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY portaudio_LIBRARIES ${portaudio_LIBRARIES})
