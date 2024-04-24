@@ -69,6 +69,47 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
         set_property(GLOBAL PROPERTY wxwidgets_INCLUDE_DIRS ${wxwidgets_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY wxwidgets_LIBRARIES ${wxwidgets_LIBRARIES})
 
+    elseif(os STREQUAL "windows")
+
+        set(compiler "msvc192")
+        set(suffix "")
+
+        if (build_type STREQUAL "release")
+            set(build_type "relwithdebinfo")
+        endif()
+
+        if (build_type STREQUAL "debug")
+            set(suffix "d")
+        endif()
+
+        set(name "windows_${arch}_${build_type}_${compiler}")
+
+        if (NOT EXISTS ${local_path}/${name}.7z)
+            message(STATUS "[wxwidgets] Populate: ${remote_url}/${name} to ${local_path} ${os} ${arch} ${build_type}")
+            file(DOWNLOAD ${remote_url}/${name}.7z ${local_path}/${name}.7z)
+            file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
+        endif()
+
+
+        set(wxwidgets_INCLUDE_DIRS
+            ${local_path}/include
+        )
+
+        set(wxwidgets_LIBRARIES
+            ${local_path}/lib/vc_x64_dll/wxbase31u${suffix}.lib
+            ${local_path}/lib/vc_x64_dll/wxbase31u${suffix}_net.lib
+            ${local_path}/lib/vc_x64_dll/wxbase31u${suffix}_xml.lib
+            ${local_path}/lib/vc_x64_dll/wxmsw31u${suffix}_adv.lib
+            ${local_path}/lib/vc_x64_dll/wxmsw31u${suffix}_aui.lib
+            ${local_path}/lib/vc_x64_dll/wxmsw31u${suffix}_core.lib
+            ${local_path}/lib/vc_x64_dll/wxmsw31u${suffix}_html.lib
+            ${local_path}/lib/vc_x64_dll/wxmsw31u${suffix}_qa.lib
+            ${local_path}/lib/vc_x64_dll/wxmsw31u${suffix}_xrc.lib
+        )
+
+        set_property(GLOBAL PROPERTY wxwidgets_INCLUDE_DIRS ${wxwidgets_INCLUDE_DIRS})
+        set_property(GLOBAL PROPERTY wxwidgets_LIBRARIES ${wxwidgets_LIBRARIES})
+
     else()
         message(FATAL_ERROR "[wxwidgets] Not supported os: ${os}")
     endif()

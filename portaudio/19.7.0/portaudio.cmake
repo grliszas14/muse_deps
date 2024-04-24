@@ -41,13 +41,31 @@ function(portaudio_Populate remote_url local_path os arch build_type)
         set_property(GLOBAL PROPERTY portaudio_INCLUDE_DIRS ${portaudio_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY portaudio_LIBRARIES ${portaudio_LIBRARIES})
 
+    elseif(os STREQUAL "windows")
+
+        set(compiler "msvc192")
+
+        if (build_type STREQUAL "release")
+            set(build_type "relwithdebinfo")
+        endif()
+
+        set(name "windows_${arch}_${build_type}_${compiler}")
+
+        if (NOT EXISTS ${local_path}/${name}.7z)
+            message(STATUS "[portaudio] Populate: ${remote_url} to ${local_path} ${os} ${arch} ${build_type}")
+            file(DOWNLOAD ${remote_url}/${name}.7z ${local_path}/${name}.7z)
+            file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
+        endif()
+
+        set(portaudio_INCLUDE_DIRS ${local_path}/include)
+        set(portaudio_LIBRARIES ${local_path}/lib/portaudio_x64.lib)
+
+        set_property(GLOBAL PROPERTY portaudio_INCLUDE_DIRS ${portaudio_INCLUDE_DIRS})
+        set_property(GLOBAL PROPERTY portaudio_LIBRARIES ${portaudio_LIBRARIES})
+
     else()
         message(FATAL_ERROR "[portaudio] Not supported os: ${os}")
     endif()
-
-
-    set(portaudio_POPULATED ON PARENT_SCOPE)
-
 
     if(NOT TARGET portaudio::portaudio)
        add_library(portaudio::portaudio INTERFACE IMPORTED GLOBAL)

@@ -41,6 +41,33 @@ function(expat_Populate remote_url local_path os arch build_type)
         set_property(GLOBAL PROPERTY expat_INCLUDE_DIRS ${expat_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY expat_LIBRARIES ${expat_LIBRARIES})
 
+    elseif(os STREQUAL "windows")
+
+        set(compiler "msvc192")
+        set(suffix "")
+
+        if (build_type STREQUAL "release")
+            set(build_type "relwithdebinfo")
+        endif()
+
+        if (build_type STREQUAL "debug")
+            set(suffix "d")
+        endif()
+
+        set(name "windows_${arch}_${build_type}_${compiler}")
+
+        if (NOT EXISTS ${local_path}/${name}.7z)
+            message(STATUS "[expat] Populate: ${remote_url} to ${local_path} ${os} ${arch} ${build_type}")
+            file(DOWNLOAD ${remote_url}/${name}.7z ${local_path}/${name}.7z)
+            file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
+        endif()
+
+        set(expat_INCLUDE_DIRS ${local_path}/include)
+        set(expat_LIBRARIES ${local_path}/lib/libexpat${suffix}.lib)
+
+        set_property(GLOBAL PROPERTY expat_INCLUDE_DIRS ${expat_INCLUDE_DIRS})
+        set_property(GLOBAL PROPERTY expat_LIBRARIES ${expat_LIBRARIES})
+
     else()
         message(FATAL_ERROR "[expat] Not supported os: ${os}")
     endif()
