@@ -17,6 +17,7 @@ function(expat_Populate remote_url local_path os arch build_type)
 
         set(expat_INCLUDE_DIRS ${local_path}/include)
         set(expat_LIBRARIES ${local_path}/lib/libexpat.so)
+        set(expat_INSTALL_LIBRARIES ${expat_LIBRARIES})
 
         set_property(GLOBAL PROPERTY expat_INCLUDE_DIRS ${expat_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY expat_LIBRARIES ${expat_LIBRARIES})
@@ -37,6 +38,7 @@ function(expat_Populate remote_url local_path os arch build_type)
 
         set(expat_INCLUDE_DIRS ${local_path}/include)
         set(expat_LIBRARIES ${local_path}/lib/libexpat.dylib)
+        set(expat_INSTALL_LIBRARIES ${expat_LIBRARIES})
 
         set_property(GLOBAL PROPERTY expat_INCLUDE_DIRS ${expat_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY expat_LIBRARIES ${expat_LIBRARIES})
@@ -64,6 +66,7 @@ function(expat_Populate remote_url local_path os arch build_type)
 
         set(expat_INCLUDE_DIRS ${local_path}/include)
         set(expat_LIBRARIES ${local_path}/lib/libexpat${suffix}.lib)
+        set(expat_INSTALL_LIBRARIES ${local_path}/bin/libexpat${suffix}.dll)
 
         set_property(GLOBAL PROPERTY expat_INCLUDE_DIRS ${expat_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY expat_LIBRARIES ${expat_LIBRARIES})
@@ -78,6 +81,8 @@ function(expat_Populate remote_url local_path os arch build_type)
        target_include_directories(expat::expat INTERFACE ${expat_INCLUDE_DIRS} )
        target_link_libraries(expat::expat INTERFACE ${expat_LIBRARIES} )
     endif()
+
+    install(FILES ${portaudio_INSTALL_LIBRARIES} TYPE LIB)
 
 endfunction()
 

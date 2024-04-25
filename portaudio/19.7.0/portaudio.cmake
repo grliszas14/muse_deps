@@ -17,6 +17,7 @@ function(portaudio_Populate remote_url local_path os arch build_type)
 
         set(portaudio_INCLUDE_DIRS ${local_path}/include)
         set(portaudio_LIBRARIES ${local_path}/lib/libportaudio.so)
+        set(portaudio_INSTALL_LIBRARIES ${portaudio_LIBRARIES})
 
         set_property(GLOBAL PROPERTY portaudio_INCLUDE_DIRS ${portaudio_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY portaudio_LIBRARIES ${portaudio_LIBRARIES})
@@ -37,6 +38,7 @@ function(portaudio_Populate remote_url local_path os arch build_type)
 
         set(portaudio_INCLUDE_DIRS ${local_path}/include)
         set(portaudio_LIBRARIES ${local_path}/lib/libportaudio.dylib)
+        set(portaudio_INSTALL_LIBRARIES ${portaudio_LIBRARIES})
 
         set_property(GLOBAL PROPERTY portaudio_INCLUDE_DIRS ${portaudio_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY portaudio_LIBRARIES ${portaudio_LIBRARIES})
@@ -59,6 +61,7 @@ function(portaudio_Populate remote_url local_path os arch build_type)
 
         set(portaudio_INCLUDE_DIRS ${local_path}/include)
         set(portaudio_LIBRARIES ${local_path}/lib/portaudio_x64.lib)
+        set(portaudio_INSTALL_LIBRARIES ${local_path}/bin/portaudio_x64.dll)
 
         set_property(GLOBAL PROPERTY portaudio_INCLUDE_DIRS ${portaudio_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY portaudio_LIBRARIES ${portaudio_LIBRARIES})
@@ -73,6 +76,8 @@ function(portaudio_Populate remote_url local_path os arch build_type)
        target_include_directories(portaudio::portaudio INTERFACE ${portaudio_INCLUDE_DIRS} )
        target_link_libraries(portaudio::portaudio INTERFACE ${portaudio_LIBRARIES} )
     endif()
+
+    install(FILES ${portaudio_INSTALL_LIBRARIES} TYPE LIB)
 
 endfunction()
 

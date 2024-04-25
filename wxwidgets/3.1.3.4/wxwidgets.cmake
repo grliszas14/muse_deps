@@ -31,6 +31,7 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
             ${local_path}/lib/libwx_gtk2u_qa-3.1.so
             ${local_path}/lib/libwx_gtk2u_xrc-3.1.so
         )
+        set(wxwidgets_INSTALL_LIBRARIES ${wxwidgets_LIBRARIES})
 
         set_property(GLOBAL PROPERTY wxwidgets_INCLUDE_DIRS ${wxwidgets_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY wxwidgets_LIBRARIES ${wxwidgets_LIBRARIES})
@@ -65,6 +66,7 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
             ${local_path}/lib/libwx_osx_cocoau_qa-3.1.dylib
             ${local_path}/lib/libwx_osx_cocoau_xrc-3.1.dylib
         )
+        set(wxwidgets_INSTALL_LIBRARIES ${wxwidgets_LIBRARIES})
 
         set_property(GLOBAL PROPERTY wxwidgets_INCLUDE_DIRS ${wxwidgets_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY wxwidgets_LIBRARIES ${wxwidgets_LIBRARIES})
@@ -90,7 +92,6 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
             file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
         endif()
 
-
         set(wxwidgets_INCLUDE_DIRS
             ${local_path}/include
         )
@@ -107,6 +108,18 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
             ${local_path}/lib/vc_x64_dll/wxmsw31u${suffix}_xrc.lib
         )
 
+        set(wxwidgets_INSTALL_LIBRARIES
+            ${local_path}/lib/vc_x64_dll/wxbase313u${suffix}_net_vc_x64_custom.dll
+            ${local_path}/lib/vc_x64_dll/wxbase313u${suffix}_vc_x64_custom.dll
+            ${local_path}/lib/vc_x64_dll/wxbase313u${suffix}_xml_vc_x64_custom.dll
+            ${local_path}/lib/vc_x64_dll/wxmsw313u${suffix}_adv_vc_x64_custom.dll
+            ${local_path}/lib/vc_x64_dll/wxmsw313u${suffix}_aui_vc_x64_custom.dll
+            ${local_path}/lib/vc_x64_dll/wxmsw313u${suffix}_core_vc_x64_custom.dll
+            ${local_path}/lib/vc_x64_dll/wxmsw313u${suffix}_html_vc_x64_custom.dll
+            ${local_path}/lib/vc_x64_dll/wxmsw313u${suffix}_qa_vc_x64_custom.dll
+            ${local_path}/lib/vc_x64_dll/wxmsw313u${suffix}_xrc_vc_x64_custom.dll
+        )
+
         set_property(GLOBAL PROPERTY wxwidgets_INCLUDE_DIRS ${wxwidgets_INCLUDE_DIRS})
         set_property(GLOBAL PROPERTY wxwidgets_LIBRARIES ${wxwidgets_LIBRARIES})
 
@@ -117,6 +130,8 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
     add_library(wxwidgets::wxwidgets INTERFACE IMPORTED GLOBAL)
     target_include_directories(wxwidgets::wxwidgets INTERFACE ${wxwidgets_INCLUDE_DIRS})
     target_link_libraries(wxwidgets::wxwidgets INTERFACE ${wxwidgets_LIBRARIES})
+
+    install(FILES ${wxwidgets_INSTALL_LIBRARIES} TYPE LIB)
 
 endfunction()
 
