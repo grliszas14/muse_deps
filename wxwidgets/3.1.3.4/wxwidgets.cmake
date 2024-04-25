@@ -131,7 +131,7 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
     target_include_directories(wxwidgets::wxwidgets INTERFACE ${wxwidgets_INCLUDE_DIRS})
     target_link_libraries(wxwidgets::wxwidgets INTERFACE ${wxwidgets_LIBRARIES})
 
-    install(FILES ${wxwidgets_INSTALL_LIBRARIES} TYPE LIB)
+    install(FILES ${wxwidgets_INSTALL_LIBRARIES} TYPE BIN)
 
 endfunction()
 

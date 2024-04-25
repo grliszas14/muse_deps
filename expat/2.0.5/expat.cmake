@@ -82,7 +82,7 @@ function(expat_Populate remote_url local_path os arch build_type)
        target_link_libraries(expat::expat INTERFACE ${expat_LIBRARIES} )
     endif()
 
-    install(FILES ${portaudio_INSTALL_LIBRARIES} TYPE LIB)
+    install(FILES ${expat_INSTALL_LIBRARIES} TYPE BIN)
 
 endfunction()
 

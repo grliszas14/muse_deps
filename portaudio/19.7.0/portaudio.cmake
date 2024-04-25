@@ -77,7 +77,7 @@ function(portaudio_Populate remote_url local_path os arch build_type)
        target_link_libraries(portaudio::portaudio INTERFACE ${portaudio_LIBRARIES} )
     endif()
 
-    install(FILES ${portaudio_INSTALL_LIBRARIES} TYPE LIB)
+    install(FILES ${portaudio_INSTALL_LIBRARIES} TYPE BIN)
 
 endfunction()
 
