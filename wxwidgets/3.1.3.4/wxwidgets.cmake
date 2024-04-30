@@ -33,9 +33,6 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
         )
         set(wxwidgets_INSTALL_LIBRARIES ${wxwidgets_LIBRARIES})
 
-        set_property(GLOBAL PROPERTY wxwidgets_INCLUDE_DIRS ${wxwidgets_INCLUDE_DIRS})
-        set_property(GLOBAL PROPERTY wxwidgets_LIBRARIES ${wxwidgets_LIBRARIES})
-
     elseif(os STREQUAL "macos")
 
         set(compiler "appleclang15")
@@ -67,9 +64,6 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
             ${local_path}/lib/libwx_osx_cocoau_xrc-3.1.dylib
         )
         set(wxwidgets_INSTALL_LIBRARIES ${wxwidgets_LIBRARIES})
-
-        set_property(GLOBAL PROPERTY wxwidgets_INCLUDE_DIRS ${wxwidgets_INCLUDE_DIRS})
-        set_property(GLOBAL PROPERTY wxwidgets_LIBRARIES ${wxwidgets_LIBRARIES})
 
     elseif(os STREQUAL "windows")
 
@@ -120,9 +114,6 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
             ${local_path}/lib/vc_x64_dll/wxmsw313u${suffix}_xrc_vc_x64_custom.dll
         )
 
-        set_property(GLOBAL PROPERTY wxwidgets_INCLUDE_DIRS ${wxwidgets_INCLUDE_DIRS})
-        set_property(GLOBAL PROPERTY wxwidgets_LIBRARIES ${wxwidgets_LIBRARIES})
-
     else()
         message(FATAL_ERROR "[wxwidgets] Not supported os: ${os}")
     endif()
@@ -131,7 +122,9 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
     target_include_directories(wxwidgets::wxwidgets INTERFACE ${wxwidgets_INCLUDE_DIRS})
     target_link_libraries(wxwidgets::wxwidgets INTERFACE ${wxwidgets_LIBRARIES})
 
-    install(FILES ${wxwidgets_INSTALL_LIBRARIES} TYPE BIN)
+    set_property(GLOBAL PROPERTY wxwidgets_INCLUDE_DIRS ${wxwidgets_INCLUDE_DIRS})
+    set_property(GLOBAL PROPERTY wxwidgets_LIBRARIES ${wxwidgets_LIBRARIES})
+    set_property(GLOBAL PROPERTY wxwidgets_INSTALL_LIBRARIES ${wxwidgets_INSTALL_LIBRARIES})
 
 endfunction()
 

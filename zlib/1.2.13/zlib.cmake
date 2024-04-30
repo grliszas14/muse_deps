@@ -26,9 +26,6 @@ function(zlib_Populate remote_url local_path os arch build_type)
         set(zlib_LIBRARIES ${local_path}/lib/zdll.lib)
         set(zlib_INSTALL_LIBRARIES ${local_path}/bin/zlib1.dll)
 
-        set_property(GLOBAL PROPERTY zlib_INCLUDE_DIRS ${zlib_INCLUDE_DIRS})
-        set_property(GLOBAL PROPERTY zlib_LIBRARIES ${zlib_LIBRARIES})
-
     else()
         message(FATAL_ERROR "[zlib] Not supported os: ${os}")
     endif()
@@ -40,7 +37,9 @@ function(zlib_Populate remote_url local_path os arch build_type)
        target_link_libraries(zlib::zlib INTERFACE ${zlib_LIBRARIES} )
     endif()
 
-    install(FILES ${zlib_INSTALL_LIBRARIES} TYPE BIN)
+    set_property(GLOBAL PROPERTY zlib_INCLUDE_DIRS ${zlib_INCLUDE_DIRS})
+    set_property(GLOBAL PROPERTY zlib_LIBRARIES ${zlib_LIBRARIES})
+    set_property(GLOBAL PROPERTY zlib_INSTALL_LIBRARIES ${zlib_INSTALL_LIBRARIES})
 
 endfunction()
 
