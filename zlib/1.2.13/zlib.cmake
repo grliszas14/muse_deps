@@ -16,8 +16,14 @@ function(zlib_Populate remote_url local_path os arch build_type)
             endif()
 
             set(zlib_INCLUDE_DIRS ${local_path}/include)
-            set(zlib_LIBRARIES ${local_path}/lib/libz.1.2.13.dylib)
-            set(zlib_INSTALL_LIBRARIES ${zlib_LIBRARIES})
+            set(zlib_LIBRARIES
+                ${local_path}/lib/libz.1.2.13.dylib
+            )
+            set(zlib_INSTALL_LIBRARIES
+                ${local_path}/lib/libz.1.2.13.dylib
+                ${local_path}/lib/libz.1.dylib
+                ${local_path}/lib/libz.dylib
+            )
 
     elseif(os STREQUAL "windows")
 
