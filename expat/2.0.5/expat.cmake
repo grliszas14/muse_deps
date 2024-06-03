@@ -16,7 +16,7 @@ function(expat_Populate remote_url local_path os arch build_type)
         endif()
 
         set(expat_INCLUDE_DIRS ${local_path}/include)
-        set(expat_LIBRARIES ${local_path}/lib/libexpat.so)
+        set(expat_LIBRARIES ${local_path}/lib/libexpat.so.1.8.10)
         set(expat_INSTALL_LIBRARIES ${expat_LIBRARIES})
 
     elseif(os STREQUAL "macos")
