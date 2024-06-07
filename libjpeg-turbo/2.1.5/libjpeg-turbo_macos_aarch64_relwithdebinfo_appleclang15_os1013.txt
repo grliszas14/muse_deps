@@ -1,0 +1,15 @@
+[settings]
+arch=armv8
+build_type=RelWithDebInfo
+compiler=apple-clang
+compiler.version=15
+os=Macos
+os.version=10.13
+[options]
+SIMD=True
+enable12bit=False
+java=False
+libjpeg7_compatibility=True
+libjpeg8_compatibility=True
+shared=True
+turbojpeg=True

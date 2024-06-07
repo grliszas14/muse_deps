@@ -3,11 +3,15 @@ function(libjpeg-turbo_Populate remote_url local_path os arch build_type)
 
     if(os STREQUAL "macos")
 
-            set(compiler "appleclang15")
-
             # At the moment only relwithdebinfo
             # I don't think we need debug builds
-            set(name "libjpeg-turbo_macos_${arch}_relwithdebinfo_${compiler}_os109")
+            if (arch STREQUAL "x86_64")
+                set(name "libjpeg-turbo_macos_x86_64_relwithdebinfo_appleclang15_os109")
+            elseif (arch STREQUAL "aarch64")
+                set(name "libjpeg-turbo_macos_aarch64_relwithdebinfo_appleclang15_os1013")
+            else()
+                message(FATAL_ERROR "Not supported macos arch: ${arch}")
+            endif()
 
             if (NOT EXISTS ${local_path}/${name}.7z)
                 message(STATUS "[libjpeg-turbo] Populate: ${remote_url} to ${local_path} ${os} ${arch} ${build_type}")
