@@ -1,0 +1,12 @@
+[settings]
+arch=armv8
+build_type=RelWithDebInfo
+compiler=apple-clang
+compiler.version=15
+os=Macos
+os.version=10.13
+[options]
+build_framework=False
+fPIC=True
+shared=True
+with_jack=True
