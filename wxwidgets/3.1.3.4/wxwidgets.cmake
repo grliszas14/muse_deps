@@ -35,11 +35,15 @@ function(wxwidgets_Populate remote_url local_path os arch build_type)
 
     elseif(os STREQUAL "macos")
 
-        set(compiler "appleclang15")
-
         # At the moment only relwithdebinfo
         # I don't think we need debug builds
-        set(name "macos_${arch}_relwithdebinfo_${compiler}_os109")
+        if (arch STREQUAL "x86_64")
+            set(name "macos_x86_64_relwithdebinfo_appleclang15_os109")
+        elseif (arch STREQUAL "aarch64")
+            set(name "macos_aarch64_relwithdebinfo_appleclang15_os1013")
+        else()
+            message(FATAL_ERROR "Not supported macos arch: ${arch}")
+        endif()
 
         if (NOT EXISTS ${local_path}/${name}.7z)
             message(STATUS "[wxwidgets] Populate: ${remote_url}/${name} to ${local_path} ${os} ${arch} ${build_type}")
