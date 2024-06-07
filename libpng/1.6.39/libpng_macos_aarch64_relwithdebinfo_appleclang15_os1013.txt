@@ -1,0 +1,13 @@
+[settings]
+arch=armv8
+build_type=RelWithDebInfo
+compiler=apple-clang
+compiler.version=15
+os=Macos
+os.version=10.13
+[options]
+api_prefix=
+neon=True
+shared=True
+[requires]
+zlib/1.2.Z@audacity/stable
