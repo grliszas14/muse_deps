@@ -6,9 +6,9 @@ function(libpng_Populate remote_url local_path os arch build_type)
             # At the moment only relwithdebinfo
             # I don't think we need debug builds
             if (arch STREQUAL "x86_64")
-                set(name "libpng-turbo_macos_x86_64_relwithdebinfo_appleclang15_os109")
+                set(name "libpng_macos_x86_64_relwithdebinfo_appleclang15_os109")
             elseif (arch STREQUAL "aarch64")
-                set(name "libpng-turbo_macos_aarch64_relwithdebinfo_appleclang15_os1013")
+                set(name "libpng_macos_aarch64_relwithdebinfo_appleclang15_os1013")
             else()
                 message(FATAL_ERROR "Not supported macos arch: ${arch}")
             endif()
