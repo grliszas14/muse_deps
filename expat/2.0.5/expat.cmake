@@ -25,7 +25,13 @@ function(expat_Populate remote_url local_path os arch build_type)
 
         # At the moment only relwithdebinfo
         # I don't think we need debug builds
-        set(name "macos_${arch}_relwithdebinfo_${compiler}_os109")
+        if (arch STREQUAL "x86_64")
+            set(name "macos_x86_64_relwithdebinfo_${compiler}_os109")
+        elseif (arch STREQUAL "aarch64")
+            set(name "macos_aarch64_relwithdebinfo_${compiler}_os1013")
+        else()
+            message(FATAL_ERROR "Not supported macos arch: ${arch}")
+        endif()
 
         if (NOT EXISTS ${local_path}/${name}.7z)
             message(STATUS "[expat] Populate: ${remote_url} to ${local_path} ${os} ${arch} ${build_type}")
