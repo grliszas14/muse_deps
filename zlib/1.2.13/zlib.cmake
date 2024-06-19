@@ -32,14 +32,9 @@ function(zlib_Populate remote_url local_path os arch build_type)
     elseif(os STREQUAL "windows")
 
         set(compiler "msvc192")
-        set(suffix "")
 
         if (build_type STREQUAL "release")
             set(build_type "relwithdebinfo")
-        endif()
-
-        if (build_type STREQUAL "debug")
-            set(suffix "d")
         endif()
 
         set(name "zlib_windows_${arch}_${build_type}_${compiler}")
