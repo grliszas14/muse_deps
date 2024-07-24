@@ -33,6 +33,32 @@ function(libjpeg-turbo_Populate remote_url local_path os arch build_type)
                 ${local_path}/lib/libturbojpeg.dylib
             )
 
+    elseif(os STREQUAL "windows")
+
+        set(compiler "msvc192")
+
+        if (build_type STREQUAL "release")
+            set(build_type "relwithdebinfo")
+        endif()
+
+        set(name "libjpeg-turbo_windows_${arch}_${build_type}_${compiler}")
+
+        if (NOT EXISTS ${local_path}/${name}.7z)
+            message(STATUS "[libjpeg-turbo] Populate: ${remote_url} to ${local_path} ${os} ${arch} ${build_type}")
+            file(DOWNLOAD ${remote_url}/${name}.7z ${local_path}/${name}.7z)
+            file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
+        endif()
+
+        set(libjpeg-turbo_INCLUDE_DIRS ${local_path}/include)
+        set(libjpeg-turbo_LIBRARIES
+            ${local_path}/lib/jpeg.lib
+            ${local_path}/lib/turbojpeg.lib
+        )
+        set(libjpeg-turbo_INSTALL_LIBRARIES
+            ${local_path}/bin/jpeg8.dll
+            ${local_path}/bin/turbojpeg.dll
+        )
+
     else()
         message(FATAL_ERROR "[libjpeg-turbo] Not supported os: ${os}")
     endif()
