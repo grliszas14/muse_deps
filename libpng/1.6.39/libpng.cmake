@@ -29,6 +29,33 @@ function(libpng_Populate remote_url local_path os arch build_type)
                 ${local_path}/lib/libpng16.dylib
                 ${local_path}/lib/libpng.dylib
             )
+    elseif(os STREQUAL "windows")
+
+        set(compiler "msvc192")
+
+        if (build_type STREQUAL "release")
+            set(build_type "relwithdebinfo")
+        endif()
+
+        if (build_type STREQUAL "debug")
+            set(suffix "d")
+        endif()
+
+        set(name "libpng_windows_${arch}_${build_type}_${compiler}")
+
+        if (NOT EXISTS ${local_path}/${name}.7z)
+            message(STATUS "[libpng] Populate: ${remote_url} to ${local_path} ${os} ${arch} ${build_type}")
+            file(DOWNLOAD ${remote_url}/${name}.7z ${local_path}/${name}.7z)
+            file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
+        endif()
+
+        set(libpng_INCLUDE_DIRS ${local_path}/include)
+        set(libpng_LIBRARIES
+            ${local_path}/lib/libpng16${suffix}.lib
+        )
+        set(libpng_INSTALL_LIBRARIES
+            ${local_path}/bin/libpng16${suffix}.dll
+        )
 
     else()
         message(FATAL_ERROR "[libpng] Not supported os: ${os}")

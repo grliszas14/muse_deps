@@ -1,0 +1,14 @@
+[settings]
+arch=x86_64
+build_type=RelWithDebInfo
+compiler=msvc
+compiler.runtime=dynamic
+compiler.runtime_type=Release
+compiler.version=192
+os=Windows
+[options]
+api_prefix=
+shared=True
+sse=True
+[requires]
+zlib/1.2.Z@audacity/stable
