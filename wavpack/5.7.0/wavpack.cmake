@@ -9,13 +9,17 @@ function(wavpack_Populate remote_url local_path os arch build_type)
         set(name "linux_${arch}_relwithdebinfo_${compiler}")
 
         if (NOT EXISTS ${local_path}/${name}.7z)
-            message(STATUS "[expat] Populate: ${remote_url}/${name} to ${local_path} ${os} ${arch} ${build_type}")
+            message(STATUS "[wavpack] Populate: ${remote_url}/${name} to ${local_path} ${os} ${arch} ${build_type}")
             file(DOWNLOAD ${remote_url}/${name}.7z ${local_path}/${name}.7z)
             file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
         endif()
 
         set(wavpack_INCLUDE_DIRS ${local_path}/include)
-        set(wavpack_LIBRARIES ${local_path}/lib/libwavpack.so)
+        set(wavpack_LIBRARIES
+            ${local_path}/lib/libwavpack.so.1.2.6
+            ${local_path}/lib/libwavpack.so.1
+            ${local_path}/lib/libwavpack.so
+        )
         set(wavpack_INSTALL_LIBRARIES ${wavpack_LIBRARIES})
 
     elseif(os STREQUAL "macos")
@@ -37,7 +41,10 @@ function(wavpack_Populate remote_url local_path os arch build_type)
         endif()
 
         set(wavpack_INCLUDE_DIRS ${local_path}/include)
-        set(wavpack_LIBRARIES ${local_path}/lib/libwavpack.dylib)
+        set(wavpack_LIBRARIES
+            ${local_path}/lib/libwavpack.1.dylib
+            ${local_path}/lib/libwavpack.dylib
+        )
         set(wavpack_INSTALL_LIBRARIES ${wavpack_LIBRARIES})
 
     elseif(os STREQUAL "windows")

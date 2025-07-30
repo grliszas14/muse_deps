@@ -9,13 +9,17 @@ function(libmp3lame_Populate remote_url local_path os arch build_type)
         set(name "linux_${arch}_relwithdebinfo_${compiler}")
 
         if (NOT EXISTS ${local_path}/${name}.7z)
-            message(STATUS "[expat] Populate: ${remote_url}/${name} to ${local_path} ${os} ${arch} ${build_type}")
+            message(STATUS "[libmp3lame] Populate: ${remote_url}/${name} to ${local_path} ${os} ${arch} ${build_type}")
             file(DOWNLOAD ${remote_url}/${name}.7z ${local_path}/${name}.7z)
             file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
         endif()
 
         set(libmp3lame_INCLUDE_DIRS ${local_path}/include)
-        set(libmp3lame_LIBRARIES ${local_path}/lib/libmp3lame.so.0)
+        set(libmp3lame_LIBRARIES
+            ${local_path}/lib/libmp3lame.so.0.0.0
+            ${local_path}/lib/libmp3lame.so.0
+            ${local_path}/lib/libmp3lame.so
+        )
         set(libmp3lame_INSTALL_LIBRARIES ${libmp3lame_LIBRARIES})
 
     elseif(os STREQUAL "macos")
@@ -37,7 +41,10 @@ function(libmp3lame_Populate remote_url local_path os arch build_type)
         endif()
 
         set(libmp3lame_INCLUDE_DIRS ${local_path}/include)
-        set(libmp3lame_LIBRARIES ${local_path}/lib/libmp3lame.0.dylib)
+        set(libmp3lame_LIBRARIES
+            ${local_path}/lib/libmp3lame.0.dylib
+            ${local_path}/lib/libmp3lame.dylib
+        )
         set(libmp3lame_INSTALL_LIBRARIES ${libmp3lame_LIBRARIES})
 
     elseif(os STREQUAL "windows")
