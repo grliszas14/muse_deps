@@ -14,7 +14,10 @@ function(opus_Populate remote_url local_path os arch build_type)
             file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
         endif()
 
-        set(opus_INCLUDE_DIRS ${local_path}/include)
+        set(opus_INCLUDE_DIRS
+            ${local_path}/include
+            ${local_path}/include/opus
+        )
         set(opus_LIBRARIES
             ${local_path}/lib/libopus.so.0.10.1
             ${local_path}/lib/libopus.so.0
@@ -42,7 +45,10 @@ function(opus_Populate remote_url local_path os arch build_type)
             file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
         endif()
 
-        set(opus_INCLUDE_DIRS ${local_path}/include)
+        set(opus_INCLUDE_DIRS
+            ${local_path}/include
+            ${local_path}/include/opus
+        )
         set(opus_LIBRARIES
             ${local_path}/lib/libopus.0.10.1.dylib
             ${local_path}/lib/libopus.0.dylib
@@ -66,7 +72,10 @@ function(opus_Populate remote_url local_path os arch build_type)
             file(ARCHIVE_EXTRACT INPUT ${local_path}/${name}.7z DESTINATION ${local_path})
         endif()
 
-        set(opus_INCLUDE_DIRS ${local_path}/include)
+        set(opus_INCLUDE_DIRS
+            ${local_path}/include
+            ${local_path}/include/opus
+        )
         set(opus_LIBRARIES ${local_path}/lib/opus.lib)
         set(opus_INSTALL_LIBRARIES ${local_path}/bin/opus.dll)
 

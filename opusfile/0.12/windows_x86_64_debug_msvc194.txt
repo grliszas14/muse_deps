@@ -1,0 +1,14 @@
+[settings]
+arch=x86_64
+build_type=Debug
+compiler=msvc
+compiler.runtime=dynamic
+compiler.runtime_type=Debug
+compiler.version=194
+os=Windows
+[options]
+http=False
+shared=False
+[requires]
+ogg/1.3.Z@audacity/stable
+opus/1.5.Z@audacity/stable
