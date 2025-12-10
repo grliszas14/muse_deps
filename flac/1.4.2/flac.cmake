@@ -20,7 +20,15 @@ function(flac_Populate remote_url local_path os arch build_type)
             ${local_path}/lib/libFLAC.so.12
             ${local_path}/lib/libFLAC.so
         )
-        set(flac_INSTALL_LIBRARIES ${flac_LIBRARIES})
+        set(flacpp_LIBRARIES
+            ${local_path}/lib/libFLAC++.so.10.0.0
+            ${local_path}/lib/libFLAC++.so.10
+            ${local_path}/lib/libFLAC++.so
+        )
+        set(flac_INSTALL_LIBRARIES
+            ${flac_LIBRARIES}
+            ${flacpp_LIBRARIES}
+        )
 
     elseif(os STREQUAL "macos")
 
@@ -48,7 +56,15 @@ function(flac_Populate remote_url local_path os arch build_type)
             ${local_path}/lib/libFLAC.12.dylib
             ${local_path}/lib/libFLAC.dylib
         )
-        set(flac_INSTALL_LIBRARIES ${flac_LIBRARIES})
+        set(flacpp_LIBRARIES
+            ${local_path}/lib/libFLAC++.10.0.0.dylib
+            ${local_path}/lib/libFLAC++.10.dylib
+            ${local_path}/lib/libFLAC++.dylib
+        )
+        set(flac_INSTALL_LIBRARIES
+            ${flac_LIBRARIES}
+            ${flacpp_LIBRARIES}
+        )
 
     elseif(os STREQUAL "windows")
 
@@ -68,7 +84,11 @@ function(flac_Populate remote_url local_path os arch build_type)
 
         set(flac_INCLUDE_DIRS ${local_path}/include)
         set(flac_LIBRARIES ${local_path}/lib/FLAC.lib)
-        set(flac_INSTALL_LIBRARIES ${local_path}/bin/FLAC.dll)
+        set(flacpp_LIBRARIES ${local_path}/lib/FLAC++.lib)
+        set(flac_INSTALL_LIBRARIES 
+            ${local_path}/bin/FLAC.dll
+            ${local_path}/bin/FLAC++.dll
+        )
 
     else()
         message(FATAL_ERROR "[flac] Not supported os: ${os}")
@@ -81,8 +101,15 @@ function(flac_Populate remote_url local_path os arch build_type)
        target_link_libraries(FLAC::FLAC INTERFACE ${flac_LIBRARIES} )
     endif()
 
+    if(NOT TARGET FLAC::FLAC++)
+       add_library(FLAC::FLAC++ INTERFACE IMPORTED GLOBAL)
+       target_include_directories(FLAC::FLAC++ INTERFACE ${flac_INCLUDE_DIRS})
+       target_link_libraries(FLAC::FLAC++ INTERFACE ${flacpp_LIBRARIES})
+    endif()
+
     set_property(GLOBAL PROPERTY flac_INCLUDE_DIRS ${flac_INCLUDE_DIRS})
     set_property(GLOBAL PROPERTY flac_LIBRARIES ${flac_LIBRARIES})
     set_property(GLOBAL PROPERTY flac_INSTALL_LIBRARIES ${flac_INSTALL_LIBRARIES})
+    set_property(GLOBAL PROPERTY flacpp_LIBRARIES ${flacpp_LIBRARIES})
 
 endfunction()
